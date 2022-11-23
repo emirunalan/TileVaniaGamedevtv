@@ -8,10 +8,13 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float runSpeed = 30f;
     [SerializeField] float jumpSpeed = 5f;
+    [SerializeField] float climbSpeed = 5f;
     Vector2 moveInput;
     Rigidbody2D rb2d;
     SpriteRenderer spRenderer;
     Animator anim;
+    CapsuleCollider2D capsCollider;
+    float gravityScaleAtStart;
 
     
     bool jumpPressed = false;
@@ -20,13 +23,15 @@ public class PlayerMovement : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         spRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        capsCollider = GetComponent<CapsuleCollider2D>();
+        gravityScaleAtStart = rb2d.gravityScale;
     }
 
     void Update()
     {
         Run();
         FlipSprite();
-        Debug.Log(jumpPressed);
+        ClimbLadder();
     }
 
     private void FlipSprite()
@@ -47,12 +52,17 @@ public class PlayerMovement : MonoBehaviour
         moveInput = value.Get<Vector2>();
     }
 
+
+
     void OnJump(InputValue value)
     {
+        if(!capsCollider.IsTouchingLayers(LayerMask.GetMask("Ground"))) return;
+        
         if(value.isPressed)
         {
             // do stuff
             rb2d.velocity += new Vector2 (0f, jumpSpeed);
+            //rb2d.AddForce(new Vector2(0f,jumpSpeed));
         }
     }
 
@@ -60,10 +70,25 @@ public class PlayerMovement : MonoBehaviour
     void Run()
     {
         Vector2 playerVelocity = new Vector2(moveInput.x * runSpeed * Time.deltaTime, rb2d.velocity.y);
-        rb2d.velocity += playerVelocity;
+        rb2d.velocity = playerVelocity;
 
-        bool playerHasHorizontalSpeed = Mathf.Abs(rb2d.velocity.x) > .01;
+        bool playerHasHorizontalSpeed = Mathf.Abs(rb2d.velocity.x) > .1;
         anim.SetBool("isRunning", playerHasHorizontalSpeed);
 
+    }
+
+    void ClimbLadder()
+    {
+        if(!capsCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+        {
+            rb2d.gravityScale = gravityScaleAtStart;
+            anim.SetBool("isClimbing", false);
+            return;
+        }
+        Vector2 climbVelocity = new Vector2(rb2d.velocity.x, moveInput.y * climbSpeed * Time.deltaTime);
+        rb2d.velocity = climbVelocity;
+        rb2d.gravityScale = 0;
+        bool playerHasVerticalSpeed = Mathf.Abs(rb2d.velocity.y) > .1;
+        anim.SetBool("isClimbing", playerHasVerticalSpeed);
     }
 }

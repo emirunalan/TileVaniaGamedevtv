@@ -11,10 +11,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Ground
+  - Climbing
+  - Player
+  - Background
   - 
   - 
   - 
@@ -49,6 +49,9 @@ TagManager:
     locked: 0
   - name: Playforms
     uniqueID: 104928301
+    locked: 0
+  - name: Climbing
+    uniqueID: 1824738995
     locked: 0
   - name: Player
     uniqueID: 4120723517

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6321725757773819290}
   - component: {fileID: 6321725757773819288}
   - component: {fileID: 6321725757773819291}
-  - component: {fileID: 2964667070373313598}
+  - component: {fileID: 7287888487983826101}
   - component: {fileID: 672183913683944805}
   - component: {fileID: 6321725758383949780}
   - component: {fileID: 3386978835845979693}
@@ -109,7 +109,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!50 &2964667070373313598
+--- !u!50 &7287888487983826101
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -129,7 +129,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!70 &672183913683944805
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -188,3 +188,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32ccc3c98347fe41b634c6b085e29a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  runSpeed: 30
+  jumpSpeed: 5
