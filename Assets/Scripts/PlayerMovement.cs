@@ -9,29 +9,34 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float runSpeed = 30f;
     [SerializeField] float jumpSpeed = 5f;
     [SerializeField] float climbSpeed = 5f;
+    [SerializeField] Vector2 deathKick = new Vector2(0,10f);
     Vector2 moveInput;
     Rigidbody2D rb2d;
     SpriteRenderer spRenderer;
     Animator anim;
-    CapsuleCollider2D capsCollider;
+    CapsuleCollider2D bodyCollider;
+    BoxCollider2D feetCollider;
     float gravityScaleAtStart;
+    bool isAlive = true;
 
     
-    bool jumpPressed = false;
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         spRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-        capsCollider = GetComponent<CapsuleCollider2D>();
+        bodyCollider = GetComponent<CapsuleCollider2D>();
+        feetCollider = GetComponent<BoxCollider2D>();
         gravityScaleAtStart = rb2d.gravityScale;
     }
 
     void Update()
     {
+        if(!isAlive) return;
         Run();
         FlipSprite();
         ClimbLadder();
+        Die();
     }
 
     private void FlipSprite()
@@ -49,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnMove(InputValue value)
     {
+        if(!isAlive) return;
         moveInput = value.Get<Vector2>();
     }
 
@@ -56,7 +62,8 @@ public class PlayerMovement : MonoBehaviour
 
     void OnJump(InputValue value)
     {
-        if(!capsCollider.IsTouchingLayers(LayerMask.GetMask("Ground"))) return;
+        if(!isAlive) return;
+        if(!feetCollider.IsTouchingLayers(LayerMask.GetMask("Ground"))) return;
         
         if(value.isPressed)
         {
@@ -79,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
 
     void ClimbLadder()
     {
-        if(!capsCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+        if(!feetCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
         {
             rb2d.gravityScale = gravityScaleAtStart;
             anim.SetBool("isClimbing", false);
@@ -91,4 +98,16 @@ public class PlayerMovement : MonoBehaviour
         bool playerHasVerticalSpeed = Mathf.Abs(rb2d.velocity.y) > .1;
         anim.SetBool("isClimbing", playerHasVerticalSpeed);
     }
+
+
+    void Die()
+    {
+        if(bodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemies","Hazards")))
+        {
+            isAlive = false;
+            anim.SetTrigger("Die");
+            rb2d.velocity = deathKick;
+        }
+    }
+
 }
