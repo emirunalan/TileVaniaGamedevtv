@@ -10,7 +10,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpSpeed = 5f;
     [SerializeField] float climbSpeed = 5f;
     [SerializeField] Vector2 deathKick = new Vector2(0,10f);
+    [SerializeField] GameObject bullet;
+    [SerializeField] Transform gun;
     Vector2 moveInput;
+    public float xDirection;
     Rigidbody2D rb2d;
     SpriteRenderer spRenderer;
     Animator anim;
@@ -45,10 +48,12 @@ public class PlayerMovement : MonoBehaviour
         if(moveInput.x > 0)
         {
             spRenderer.flipX = false;
+            xDirection = 1;
         }
         if(moveInput.x < 0)
         {
             spRenderer.flipX = true;
+            xDirection = -1;
         }
     }
 
@@ -72,6 +77,13 @@ public class PlayerMovement : MonoBehaviour
             //rb2d.AddForce(new Vector2(0f,jumpSpeed));
         }
     }
+
+    void OnFire(InputValue value)
+    {
+        if(!isAlive) return;
+        Instantiate(bullet,gun.position,transform.rotation);
+    }
+    
 
 
     void Run()
@@ -109,5 +121,7 @@ public class PlayerMovement : MonoBehaviour
             rb2d.velocity = deathKick;
         }
     }
+
+
 
 }

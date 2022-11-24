@@ -21601,6 +21601,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goober(Enemy)
       objectReference: {fileID: 0}
+    - target: {fileID: 6638158179673480346, guid: ee0bcb512cdabf349897be64f9bfa698, type: 3}
+      propertyPath: m_UsedByEffector
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6638158179673480347, guid: ee0bcb512cdabf349897be64f9bfa698, type: 3}
       propertyPath: m_RootOrder
       value: 4
