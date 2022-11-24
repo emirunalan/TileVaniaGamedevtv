@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 8666342833763593835}
   m_Layer: 8
   m_Name: Ginger (Player)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,7 +109,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -174243779
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 1222096312, guid: deb9221750c506c46b5e3c481a76fec6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -227,6 +227,7 @@ MonoBehaviour:
   deathKick: {x: 0, y: 10}
   bullet: {fileID: 2148145128845938098, guid: b9c302951f3c1ea42bf1b1e32d6b0d5a, type: 3}
   gun: {fileID: 5018091736532982952}
+  xDirection: 0
 --- !u!61 &8666342833763593835
 BoxCollider2D:
   m_ObjectHideFlags: 0
